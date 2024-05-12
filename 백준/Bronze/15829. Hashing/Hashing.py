@@ -1,12 +1,14 @@
-import sys
-def input():
-    return sys.stdin.readline().rstrip()
-
 L = int(input())
 s = input()
-coefficient = 0 # 계수
+
+MOD = 1234567891
+
 answer = 0
+base = 1
+
 for c in s:
-    answer += (ord(c) - ord('a') + 1) * 31 ** coefficient
-    coefficient += 1
+    coefficient = ord(c) - ord('a') + 1
+    answer = (answer + coefficient * base) % MOD
+    base = (base * 31) % MOD
+
 print(answer)
