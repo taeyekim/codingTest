@@ -1,10 +1,9 @@
 def solution(arr):
     answer = []
-    flag = -1
-    for i in arr:
-        if i != flag:
-            flag = i
-            answer.append(i)
-        else:
-            continue
+    answer.append(arr[0])
+    flag = arr[0]
+    for x in arr[1:]:
+        if flag != x:
+            answer.append(x)
+            flag = x
     return answer
