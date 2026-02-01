@@ -7,9 +7,7 @@ def solution(A,B):
     # 반복하여 두 수를 곱한 값을 누적하여 더함. 누적된 값이 최소가 되는 경우.
     # 숫자 재사용 X
     A.sort()
-    B.sort()
-    answer = 0
-    for i in range(len(A)):
-        answer += A[i] * B[-(i+1)]
+    B.sort(reverse=True)
+    answer = sum(i*j for (i, j) in zip(A, B))
     
     return answer
