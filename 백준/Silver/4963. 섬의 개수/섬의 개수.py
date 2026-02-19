@@ -1,35 +1,35 @@
 import sys
+sys.setrecursionlimit(100000)
 
-# 입력 함수를 빠른 sys.stdin.readline으로 변경
-input = sys.stdin.readline
-
-dx = [0, 0, 1, -1, 1, 1, -1, -1]
-dy = [1, -1, 0, 0, 1, -1, -1, 1]
-
-def bfs(row, col):
-    lst = []
-    jido[row][col] = 0
-    lst.append((row, col))
-    while lst:
-        x, y = lst.pop(0)
-        for i in range(8):
-            nx = x + dx[i]
-            ny = y + dy[i]
-            if 0 <= nx <= h - 1 and 0 <= ny <= w - 1:
-                if jido[nx][ny] == 1:
-                    lst.append((nx, ny))
-                    jido[nx][ny] = 0
+def dfs(x, y):
+    if x < 0 or x >= h or y < 0 or y >= w:
+        return False
+    
+    if graph[x][y] == 1:
+        graph[x][y] = 0
+        
+        dfs(x+1, y)
+        dfs(x+1, y-1)
+        dfs(x, y-1)
+        dfs(x-1, y-1)
+        dfs(x-1, y)
+        dfs(x-1, y+1)
+        dfs(x, y+1)
+        dfs(x+1, y+1)
+        
+        return True
+    return False
 
 while True:
-
-    w, h = map(int, input().split())
+    w, h = map(int, sys.stdin.readline().split())
     if w == 0 and h == 0:
         break
-    jido = [list(map(int, input().split())) for _ in range(h)]
+    
+    graph = [list(map(int, sys.stdin.readline().split())) for _ in range(h)]
     cnt = 0
+    
     for i in range(h):
         for j in range(w):
-            if jido[i][j] == 1:
-                bfs(i, j)
+            if dfs(i, j):
                 cnt += 1
     print(cnt)
