@@ -1,27 +1,30 @@
+import sys
 from collections import deque
 
-dy = [0, 0, 1, -1]
-dx = [1, -1, 0, 0]
+DIRS = ((1,0), (0,1), (-1, 0), (0, -1))
 
-def bfs(col, row):
+def bfs(x, y):
+
     q = deque()
-    visited = [[False] * M for _ in range(N)]
-    visited[0][0] = True
-    q.append((col, row, 1))
-
+    q.append((x, y))
+    dist[x][y] = 1
+    
     while q:
-        y, x, cnt = q.popleft()
-        for i in range(4):
-            ny = y + dy[i]
-            nx = x + dx[i]
-            if 0 <= ny <= N-1 and 0 <= nx <= M-1 and lst[ny][nx] == 1 and not visited[ny][nx]:
-                if ny == N-1 and nx == M-1:
-                    return cnt + 1
-                visited[ny][nx] = True
-                q.append((ny, nx, cnt + 1))
+        x, y = q.popleft()
+        
+        if x == n - 1 and y == m - 1:
+            print(dist[x][y])
+            break
+        
+        for dx, dy in DIRS:
+            nx, ny = x + dx, y + dy
+            if 0 <= nx <= n - 1 and 0 <= ny <= m - 1:
+                if grid[nx][ny] == 1 and dist[nx][ny] == 0:
+                    dist[nx][ny] = dist[x][y] + 1
+                    q.append((nx, ny))
 
-N, M = map(int, input().split())
+n, m = map(int, sys.stdin.readline().split())
 
-lst = [list(map(int, input())) for _ in range(N)]
-answer = bfs(0, 0)
-print(answer)
+grid = [list(map(int, sys.stdin.readline().strip())) for _ in range(n)]
+dist = [[0] * m for _ in range(n)]
+bfs(0, 0)
